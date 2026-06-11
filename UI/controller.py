@@ -31,6 +31,29 @@ class Controller:
         self._model.buildGraph(self._view._ddGenre.value)
         self.fillDDArtist()
 
+        influenza = 0
+        artista = None
+
+        for key, value in self._model.getInfluenza().items():
+            if value > influenza:
+                influenza = value
+                artista = key
+
+        self._model.getTop5Archi()
+
+        self._view.txt_result.controls.clear()
+        self._view.txt_result.controls.append(ft.Text("Grafo correttamente creato."))
+        self._view.txt_result.controls.append(
+            ft.Text(f"Il grafo contiene {len(self._model._graph.nodes())} nodi e {len(self._model._graph.edges())} archi."))
+        self._view.txt_result.controls.append(
+            ft.Text(f"Artista più influente: {artista.Name}, con influenza: {influenza}"))
+
+        for i in self._model.getTop5Archi():
+            self._view.txt_result.controls.append(
+                ft.Text(f"{i[0].Name} -> {i[1].Name}: {i[2]["weight"]}")
+            )
+
+        self._view.update_page()
 
     def handleCammino(self,e):
         pass
