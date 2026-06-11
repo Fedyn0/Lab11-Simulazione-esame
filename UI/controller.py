@@ -9,13 +9,28 @@ class Controller:
         self._model = model
 
     def fillDDGenre(self):
-        pass
+        generi = self._model.getAllGenre()
+
+        for g in generi:
+            self._view._ddGenre.options.append(ft.dropdown.Option(g))
+        self._view.update_page()
+
+
+    def fillDDArtist(self):
+        self._view._ddArtist.options.clear()
+        artisti = self._model.getAllArtistGenre()
+
+        for artist in artisti:
+            self._view._ddArtist.options.append(ft.dropdown.Option(
+                key = artist.ArtistId,
+                text = artist.Name,
+            ))
+        self._view.update_page()
 
     def handleCreaGrafo(self, e):
-        pass
+        self._model.buildGraph(self._view._ddGenre.value)
+        self.fillDDArtist()
 
-    def handleCreaGrafo(self,e):
-        pass
 
     def handleCammino(self,e):
         pass
