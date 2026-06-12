@@ -1,3 +1,4 @@
+import copy
 import operator
 
 import networkx as nx
@@ -12,6 +13,35 @@ class Model:
         self._artisti = {}
         self._popolarita = {}
         self._influenza = {}
+        self._bestPath = []
+
+    def getBestPath(self, artist):
+
+        self._bestPath = []
+
+        parziale = [self._artisti[int(artist)]]
+
+        self._ricorsione(parziale, -1)
+
+        return self._bestPath
+
+
+    def _ricorsione(self, parziale, lastWeight):
+
+        if len(parziale) > len(self._bestPath):
+            self._bestPath = copy.deepcopy(parziale)
+
+        nodo_corrente = parziale[-1]
+
+        for i in self._graph.out_edges(nodo_corrente,data=True):
+            peso = i[2]['weight']
+
+            if peso > lastWeight:
+                if i[1] not in parziale:
+                    parziale.append(i[1])
+                    self._ricorsione(parziale, peso)
+                    parziale.pop()
+
 
     def buildGraph(self, genre):
         self._graph.clear()

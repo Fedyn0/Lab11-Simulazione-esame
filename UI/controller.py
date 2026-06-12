@@ -56,4 +56,17 @@ class Controller:
         self._view.update_page()
 
     def handleCammino(self,e):
-        pass
+        bestPath = self._model.getBestPath(self._view._ddArtist.value)
+
+        artista = self._model._artisti[int(self._view._ddArtist.value)]
+
+        self._view.txt_result.controls.append(
+            ft.Text(f"Per l'artista {artista} è stato trovato il seguente percorso:")
+        )
+
+        for i in bestPath:
+            self._view.txt_result.controls.append(
+                ft.Text(i)
+            )
+
+        self._view.update_page()
